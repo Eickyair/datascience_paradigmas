@@ -1,1 +1,3 @@
-datasets
+datasets/covid/train/
+datasets/covid/test/
+datasets/covid/val/
