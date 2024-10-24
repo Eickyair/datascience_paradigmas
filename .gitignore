@@ -2,3 +2,4 @@ datasets/covid/train/
 datasets/covid/test/
 datasets/covid/val/
 .vscode
+traced_model.pt
