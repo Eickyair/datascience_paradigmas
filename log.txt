@@ -1,0 +1,79 @@
+* 5533a026d evitar archivo de pesos
+* 7f6d4654a reestructurando archivos de entrenamiento y etiquetas de v1
+* c1bb41994 repo yolov7
+* 0942ed7e7 datos entrenamiento v1
+* 39609001b Agregar archivos de etiquetas para el entrenamiento de modelos de COVID
+* 7eeca880d Agregar función para validar y copiar archivos con formato específico
+* 8a4c51363 correccion etiquetas magno
+* a48a93d44 Imagen faltante de etiqueta imanol
+* eff4d74ea script para mover todas las imagenes
+*   f6edddb13 Merge pull request #2 from Eickyair/erick
+|\  
+| * 84fbb2f31 Etiquetas erick
+* |   ee7aed59c Merge pull request #1 from ImanolMSB/main
+|\ \  
+| * | 948d4cb8d Etiquetar imagenes de entrenamiento
+|/ /  
+* | 74f07ce9c imagenes de Magno ya etiquetadas
+* | 2f5188b49 Actualizar título del proyecto en README.md
+|/  
+* b018b0824 Actualizar README.md con instrucciones detalladas para el uso del software de etiquetado
+* 0160a0c1f creacion folder de etiquetas
+* 8d60ec974 conjunto reducion para cnn
+* 3d1a506dc Agregar archivo de clases predefinidas para el procesamiento de etiquetas y primer version de manual y gui a
+* 7e4e29d8a Eliminacion de imagenes en color del repo
+* ec64a653d eliminacion dataset elecciones
+* b7b09ee6d Add .vscode to .gitignore
+* 76926c17f Primer modelo de kmeans
+* 63362ba3e Links para entender un diagnostico
+* 9112224ee Datos escala de grises
+* 1bb2ec0a9 Visualizacion de la reduccion en memoria
+* 81e6eb686 Procesamiento en escala de grises
+* 6611a2357 Add Jupyter notebook for COVID predictions and data processing
+* c5968afb7 Redimensionado de datos de prueba
+* 02f0a0511 Redimensionamiento de los datos de entrenamiento
+* 58952209c Update data analysis scripts for improved accuracy
+* 530db7013 Add dataset link to README.md
+* 642a86318 exploracion covid
+* 1a3dd0c37 estructura inicial
+* dc07d3652 datos de las elecciones del 2024 en mexico
+* 719edd626 Create README.md
+* b0bf3f1fb reestructurando archivos de entrenamiento y etiquetas de v1
+* f404475bf repo yolov7
+* 777e80301 datos entrenamiento v1
+* 7840df02e Agregar archivos de etiquetas para el entrenamiento de modelos de COVID
+* 08390f0ac Agregar función para validar y copiar archivos con formato específico
+* 6257155ed correccion etiquetas magno
+* cba29745a Imagen faltante de etiqueta imanol
+* ef446e0da script para mover todas las imagenes
+*   7089ebd6f Merge pull request #2 from Eickyair/erick
+|\  
+| * 6333c81c5 Etiquetas erick
+* |   15a5f0acb Merge pull request #1 from ImanolMSB/main
+|\ \  
+| * | 14d2dc88c Etiquetar imagenes de entrenamiento
+|/ /  
+* | e0f60ef19 imagenes de Magno ya etiquetadas
+* | c227bcb13 Actualizar título del proyecto en README.md
+|/  
+* 66c4d8d31 Actualizar README.md con instrucciones detalladas para el uso del software de etiquetado
+* cd67a06a5 creacion folder de etiquetas
+* 46bd104ed conjunto reducion para cnn
+* 4f55b2873 Agregar archivo de clases predefinidas para el procesamiento de etiquetas y primer version de manual y gui a
+* 098997955 Eliminacion de imagenes en color del repo
+* 4b2527c39 eliminacion dataset elecciones
+* a3e926993 Add .vscode to .gitignore
+* 6208dcf1f Primer modelo de kmeans
+* ff4f8e876 Links para entender un diagnostico
+* 57c375cd6 Datos escala de grises
+* c5e63fa05 Visualizacion de la reduccion en memoria
+* ee4424169 Procesamiento en escala de grises
+* cbed9ba56 Add Jupyter notebook for COVID predictions and data processing
+* aa96b542f Redimensionado de datos de prueba
+* ea91db279 Redimensionamiento de los datos de entrenamiento
+* 21a74490f Update data analysis scripts for improved accuracy
+* 88918d994 Add dataset link to README.md
+* 67c2852c5 exploracion covid
+* 35caaee26 estructura inicial
+* d40392a85 datos de las elecciones del 2024 en mexico
+* 3bcd21563 Create README.md

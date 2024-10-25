@@ -1,29 +1,34 @@
 import argparse
 import time
 from pathlib import Path
+import os
 
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
-
+import pandas as pd
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
+DF_DETECT = pd.DataFrame(columns=['image', 'class', 'x1', 'y1', 'x2', 'y2','confidence'])
 
 
-def detect(save_img=False):
-    source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
-    save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
+def detect(source,save_img=False):
+    global DF_DETECT
+    _, weights, view_img, save_txt, imgsz, trace, input_dir, output_dir = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace, opt.input,opt.output 
+    save_img = not opt.nosave and not source.endswith('.txt') # save inference images
+    print('input_dir:', input_dir)
+    print('output_dir:', output_dir)
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://', 'https://'))
 
     # Directories
-    save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
-    (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
+    # save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
+    # (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Initialize
     set_logging()
@@ -103,13 +108,12 @@ def detect(save_img=False):
                 p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
-            save_path = str(save_dir / p.name)  # img.jpg
-            txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
+            # save_path = str(save_dir / p.name)  # img.jpg
+            # txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
-
                 # Print results
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
@@ -120,9 +124,10 @@ def detect(save_img=False):
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh)  # label format
-                        print(line)
-                        with open(txt_path + '.txt', 'a') as f:
-                            f.write(('%g ' * len(line)).rstrip() % line + '\n')
+                        a = ('%g ' * len(line)).rstrip() % line
+                        a = a.split(' ')
+                        a = list(map(float, a))
+                        DF_DETECT.loc[len(DF_DETECT)] = [p.name, names[int(cls)], a[1], a[2], a[3], a[4], a[5]]
 
                     if save_img or view_img:  # Add bbox to image
                         label = f'{names[int(cls)]} {conf:.2f}'
@@ -137,28 +142,26 @@ def detect(save_img=False):
                 cv2.waitKey(1)  # 1 millisecond
 
             # Save results (image with detections)
-            if save_img:
-                if dataset.mode == 'image':
-                    cv2.imwrite(save_path, im0)
-                    print(f" The image with the result is saved in: {save_path}")
-                else:  # 'video' or 'stream'
-                    if vid_path != save_path:  # new video
-                        vid_path = save_path
-                        if isinstance(vid_writer, cv2.VideoWriter):
-                            vid_writer.release()  # release previous video writer
-                        if vid_cap:  # video
-                            fps = vid_cap.get(cv2.CAP_PROP_FPS)
-                            w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-                            h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-                        else:  # stream
-                            fps, w, h = 30, im0.shape[1], im0.shape[0]
-                            save_path += '.mp4'
-                        vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
-                    vid_writer.write(im0)
+    #         if save_img:
+    #             if dataset.mode == 'image':
+    #                 cv2.imwrite(save_path, im0)
+    #                 print(f" The image with the result is saved in: {save_path}")
+    #             else:  # 'video' or 'stream'
+    #                 if vid_path != save_path:  # new video
+    #                     vid_path = save_path
+    #                     if isinstance(vid_writer, cv2.VideoWriter):
+    #                         vid_writer.release()  # release previous video writer
+    #                     if vid_cap:  # video
+    #                         fps = vid_cap.get(cv2.CAP_PROP_FPS)
+    #                         w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    #                         h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    #                     else:  # stream
+    #                         fps, w, h = 30, im0.shape[1], im0.shape[0]
+    #                         save_path += '.mp4'
+    #                     vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
+    #                 vid_writer.write(im0)
 
-    if save_txt or save_img:
-        s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
-        #print(f"Results saved to {save_dir}{s}")
+    #     #print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
 
@@ -183,14 +186,23 @@ if __name__ == '__main__':
     parser.add_argument('--name', default='exp', help='save results to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
+    parser.add_argument('--input', type=str, default='inference/images', help='input image')
+    parser.add_argument('--output', type=str, default='inference/output', help='output image')
+    parser.add_argument('--file_name', type=str, default='output.csv', help='output file name')
     opt = parser.parse_args()
-    print(opt)
-    #check_requirements(exclude=('pycocotools', 'thop'))
-
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov7.pt']:
                 detect()
                 strip_optimizer(opt.weights)
         else:
-            detect()
+            files = os.listdir(opt.input)
+            i = 0
+            for file in files:
+                if file.endswith('.jpg') or file.endswith('.jpeg') or file.endswith('.png'):
+                    detect(opt.input + '/' + file)
+                if i % 200 == 0:
+                    print(f'{i} images processed')
+                    DF_DETECT.to_csv(opt.file_name,index=False)
+                i += 1
+            DF_DETECT.to_csv(opt.file_name,index=False)
