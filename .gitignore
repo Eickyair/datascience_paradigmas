@@ -3,3 +3,5 @@ datasets/covid/test/
 datasets/covid/val/
 .vscode
 traced_model.pt
+__pycache__/
+tmp_*/

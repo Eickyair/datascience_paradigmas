@@ -1,0 +1,5 @@
+image,class,x1,y1,x2,y2,confidence
+sub-S309863_ses-E27579_run-1_bp-chest_vp-ap_dx-corrected.jpg,pulmones,0.503125,0.445312,0.71875,0.771875,0.800293
+sub-S316566_ses-E35146_run-1_bp-chest_vp-ap_dx-corrected.jpg,pulmones,0.507812,0.439063,0.834375,0.671875,0.814453
+sub-S318936_ses-E39106_run-1_bp-chest_vp-ap_dx-corrected.jpg,pulmones,0.48125,0.46875,0.8125,0.6125,0.916992
+sub-S321657_ses-E43944_run-1_bp-chest_vp-pa_cr-corrected.jpg,pulmones,0.451562,0.571875,0.903125,0.825,0.968262

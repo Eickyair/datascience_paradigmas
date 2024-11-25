@@ -1,0 +1,9 @@
+
+train: ../../datasets/covid/escala_grises/entrenamientos/v1/train/images
+val: ../../datasets/covid/escala_grises/entrenamientos/v1/valid/images
+
+# number of classes
+nc: 1
+
+# class names
+names: ['pulmones']
